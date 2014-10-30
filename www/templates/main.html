@@ -1,7 +1,7 @@
 <ion-view title="Acerca de">
-  <ion-header-bar class="bar">
+  <ion-header-bar class="bar bar-header bar-positive">
     <button class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
-    <h1 class="title">Bluelytics</h1>
+    <h1 class="title">Valor actual</h1>
   </ion-header-bar>
   <ion-content>
   
@@ -10,7 +10,7 @@
     <span class="tab-item">
       Compra
     </span>
-    <span class="tab-item">
+    <span class="tab-item valor">
       {{dolar.compra | number:2}}
     </span>
     <span class="tab-item">
@@ -23,7 +23,7 @@
     <span class="tab-item">
       Intermedio
     </span>
-    <span class="tab-item">
+    <span class="tab-item valor">
       {{dolar.avg | number:2}}
     </span>
     <span class="tab-item">
@@ -36,7 +36,7 @@
     <span class="tab-item">
       Venta
     </span>
-    <span class="tab-item">
+    <span class="tab-item valor">
       {{dolar.venta | number:2}}
     </span>
     <span class="tab-item">
@@ -47,17 +47,19 @@
 
   </div>
 
-  <div ng-repeat="dolar in dolares | filter:esBlue">
-      <button class="button button-block" ng-class="{ 'button-positive': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
-        {{dolar.long_name}}
-      </button>
-  </div>
+  <div class="card">
+    <div ng-repeat="dolar in dolares | filter:esBlue">
+        <button class="button button-block" ng-class="{ 'button-positive': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
+          {{dolar.long_name}}
+        </button>
+    </div>
 
-  
-  <div ng-repeat="dolar in dolares | filter:esOficial">
-      <button class="button button-block" ng-class="{ 'button-balanced': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
-        {{dolar.long_name}}
-      </button>
+    
+    <div ng-repeat="dolar in dolares | filter:esOficial">
+        <button class="button button-block" ng-class="{ 'button-balanced': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
+          {{dolar.long_name}}
+        </button>
+    </div>
   </div>
 
   </ion-content>

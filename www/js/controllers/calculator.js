@@ -8,29 +8,39 @@
  * Controller of the bluemobile.controllers
  */
 angular.module('bluemobile.controllers')
-  .controller('CalculatorCtrl', ['$scope', '$filter', 'blueAPI', function ($scope, $filter, blueAPI) {
+  .controller('CalculatorCtrl', function ($scope, $filter, blueAPI, $ionicSideMenuDelegate) {
+
+    $scope.toggleLeft = function() {
+      $ionicSideMenuDelegate.toggleLeft();
+    };
 
     $scope.moneda = {};
-    $scope.calculo_ars = 0;
-    $scope.calculo_ext = 0;
+    $scope.calculo = {};
+    $scope.dolar = {};
+    $scope.calculo.ars = 0;
+    $scope.calculo.ext = 0;
 
     $scope.update_ars = function update_ars(){
-        if($scope.valor_dolar && $scope.moneda.selected){
-            $scope.calculo_ars =  parseFloat( (($scope.calculo_ext / $scope.moneda.selected.value) * $scope.valor_dolar).toFixed(2));
+        if($scope.dolar.activo.avg && $scope.moneda.selected){
+            $scope.calculo.ars =  parseFloat( (($scope.calculo.ext / $scope.moneda.selected.value) * $scope.dolar.activo.avg).toFixed(2));
         }
     };
 
     $scope.update_ext = function update_ext(){
-        if($scope.valor_dolar && $scope.moneda.selected){
-            $scope.calculo_ext =  parseFloat( (($scope.calculo_ars / $scope.valor_dolar) * $scope.moneda.selected.value).toFixed(2));
+        if($scope.dolar.activo.avg && $scope.moneda.selected){
+            $scope.calculo.ext =  parseFloat( (($scope.calculo.ars / $scope.dolar.activo.avg) * $scope.moneda.selected.value).toFixed(2));
+            
+            console.log($scope.calculo.ars + "/" + $scope.dolar.activo.avg);
         }
+
     };
 
     blueAPI.extended_last_price(function(value){
         $scope.dolares = $filter('filter')(value, function(dolar){
             return (dolar.name === 'oficial' || dolar.name === 'blue' || dolar.name === 'oficial_20' || dolar.name === 'oficial_35');
         }, true);
-        $scope.cambiarDolar('blue');
+        $scope.dolar.activo = $scope.dolares[0];
+        $scope.update_ext();
     });
 
 
@@ -44,16 +54,5 @@ angular.module('bluemobile.controllers')
     });
     
 
-    $scope.cambiarDolar = function cambiarDolar(newVal){
-        for(var i = 0; i < $scope.dolares.length; i++){
-            var dolar = $scope.dolares[i];
-            if(dolar.name === newVal){
-                $scope.dolar_activo = newVal;
-                $scope.valor_dolar = dolar.avg;
-                $scope.update_ext();
-            }
-        }
-    };
 
-
-  }]);
+  });

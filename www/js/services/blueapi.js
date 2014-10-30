@@ -11,11 +11,17 @@ angular.module('bluemobile.services', [])
   .service('blueAPI', function blueAPI($resource, $q, _) {
     var valoresBlue = null;
 
+    //var backendUrl = 'http://api.bluelytics.com.ar/';
     var backendUrl = 'http://localhost:8000/';
 
     var percGap = function percGap(ofi, blue){
         return (blue - ofi) / ofi;
     }
+
+    var dateFormat = function dateFormat(d) {
+      function pad(s) { return (s < 10) ? '0' + s : s; }
+      return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+    };
 
     var last_price_resource = $resource( backendUrl + 'api/last_price', {}, {
       query: {method:'GET', isArray:true, cache:true}
@@ -76,6 +82,47 @@ angular.module('bluemobile.services', [])
 
                 mycall(value);
             });
+        },
+
+        'group_graph_data': function groupGraphData(rawData){
+            var allData = [];
+
+            for(var key in rawData){
+                if(rawData.hasOwnProperty(key) && key != '$promise' && key != '$resolved'){
+                    var appendData = _.chain(rawData[key]).map(function(b){
+                      var tmp_date = new Date(b.date);
+                      b.epoch = tmp_date.getTime()/1000;
+                      b.datepart = dateFormat(tmp_date);
+                      b.source = key;
+                      return b;
+                    }).value();
+                    allData = allData.concat(appendData);
+                  }
+              }
+              
+
+            var dataByDate = _.groupBy(allData, function(a){return a.datepart;});
+
+            var finalGrouped = _.chain(dataByDate).map(function(d){
+              var max_oficial = _.max(d, function(val){
+                if (val.source == 'Oficial'){return val.value;} else {return 0;}
+              }).value;
+
+              var sum_blue = _.reduce(d, function(memo, sum){
+                if (sum.source != 'Oficial'){ return memo + sum.value;} else {return memo;}
+              }, 0);
+
+              var count_blue = _.chain(d).filter(function(c) {
+                return c.source != 'Oficial';
+              }).size().value();
+
+              return {'intDate': d[0].epoch,'date': d[0].datepart, 'oficial': max_oficial, 'blue': sum_blue/count_blue}
+
+            }).filter(function(d){
+              return (d.oficial > 0 && d.blue > 0 && (d.oficial - d.blue) != 0);
+            }).sortBy(function(d){return d.intDate;}).value();
+
+            return finalGrouped;
         },
 
     };

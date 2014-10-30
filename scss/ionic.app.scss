@@ -21,6 +21,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-.precios > .item > .tab-item {
+.precios > .item > .tab-item.valor {
   font-size:1.7em;
 }

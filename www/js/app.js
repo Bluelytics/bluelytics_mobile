@@ -35,6 +35,24 @@ angular.module('bluemobile', [
       controller: 'MainCtrl'
     })
 
+    .state('calculator', {
+      url: "/calc",
+      templateUrl: "templates/calculator.html",
+      controller: 'CalculatorCtrl'
+    })
+
+    .state('evolution', {
+      url: "/evolution",
+      templateUrl: "templates/evolution.html",
+      controller: 'EvolutionCtrl'
+    })
+
+    .state('gap', {
+      url: "/gap",
+      templateUrl: "templates/gap.html",
+      controller: 'GapCtrl'
+    })
+
     .state('about', {
       url: "/about",
       templateUrl: "templates/about.html",

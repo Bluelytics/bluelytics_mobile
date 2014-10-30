@@ -18,18 +18,15 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
-    <!-- your app's js -->
+    <!-- Controllers -->
     <script src="js/app.js"></script>
-    <script src="js/controllers/app.js"></script>
     <script src="js/controllers/about.js"></script>
-    <script src="js/controllers/api.js"></script>
     <script src="js/controllers/calculator.js"></script>
     <script src="js/controllers/evolution.js"></script>
-    <script src="js/controllers/forecast.js"></script>
     <script src="js/controllers/gap.js"></script>
-    <script src="js/controllers/index.js"></script>
     <script src="js/controllers/main.js"></script>
-    <script src="js/controllers/wordcloud.js"></script>
+
+    <!-- Services -->
     <script src="js/services/blueapi.js"></script>
 
 
@@ -43,15 +40,33 @@
       </ion-side-menu-content>
 
       <ion-side-menu side="left">
-        <header class="bar bar-header bar-stable">
+        <header class="bar bar-header bar-dark">
           <h1 class="title">Menu</h1>
         </header>
         <ion-content class="has-header">
           <ion-list>
-            <ion-item nav-clear menu-close href="#/">
+            <ion-item class="item-icon-left" nav-clear menu-close href="#/">
+              <i class="icon ion-social-usd"></i>
               Valor actual
             </ion-item>
-            <ion-item nav-clear menu-close href="#/about">
+
+            <ion-item class="item-icon-left" nav-clear menu-close href="#/calc">
+              <i class="icon ion-calculator"></i>
+              Calculadora
+            </ion-item>
+
+            <ion-item class="item-icon-left" nav-clear menu-close href="#/evolution">
+              <i class="icon ion-connection-bars"></i>
+              Evolucion
+            </ion-item>
+
+            <ion-item class="item-icon-left" nav-clear menu-close href="#/gap">
+              <i class="icon ion-arrow-resize"></i>
+              Brecha
+            </ion-item>
+
+            <ion-item class="item-icon-left" nav-clear menu-close href="#/about">
+              <i class="icon ion-help"></i>
               Acerca de
             </ion-item>
           </ion-list>

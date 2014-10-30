@@ -1,0 +1,36 @@
+<ion-view title="Acerca de">
+  <ion-header-bar class="bar bar-header bar-positive">
+    <button class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
+    <h1 class="title">Evolucion</h1>
+  </ion-header-bar>
+  <ion-content>
+  <div class="list">
+
+    <div class="item item-divider tabs tabs-secondary">
+      <span class="tab-item">
+        Fecha
+      </span>
+      <span class="tab-item">
+        Oficial
+      </span>
+      <span class="tab-item">
+        Blue
+      </span>
+    </div>
+
+    <div class="item tabs tabs-secondary" ng-repeat="valor in valores">
+      <span class="tab-item">
+          {{valor.date}}
+      </span>
+      <span class="tab-item">
+          {{valor.oficial |number:2}}
+      </span>
+      <span class="tab-item">
+          {{valor.blue |number:2}}
+      </span>
+    </div>
+
+  </div>
+
+  </ion-content>
+</ion-view>

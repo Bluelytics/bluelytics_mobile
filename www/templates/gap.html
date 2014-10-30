@@ -1,0 +1,49 @@
+<ion-view title="Acerca de">
+  <ion-header-bar class="bar bar-header bar-positive">
+    <button class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
+    <h1 class="title">Brecha</h1>
+  </ion-header-bar>
+  <ion-content>
+
+    <label class="item item-input">
+      <span class="input-label">Dólares (USD) a comparar</span>
+      <input type="number" ng-model="valorCompare" min="0" ng-change="update_ext()">
+    </label>
+
+    <div class="list">
+
+      <div class="item item-divider">
+        <h2> Oficial vs Blue </h2>
+      </div>
+      <div class="item">
+        Diferencia absoluta: <b>AR$ {{valorCompare * gap(valorDolarOficial, valorDolarBlue) |number:2}}</b>
+      </div>
+      <div class="item">
+        Diferencia relativa: <b>{{ percFormat(percGap(valorDolarOficial, valorDolarBlue))  }}</b>
+      </div>
+
+      <div class="item item-divider">
+        <h2> Ahorro (+20%) vs Blue </h2>
+      </div>
+      <div class="item">
+        Diferencia absoluta: <b>AR$ {{valorCompare * gap(valorDolarAhorro, valorDolarBlue) |number:2}}</b>
+      </div>
+      <div class="item">
+        Diferencia relativa: <b>{{ percFormat(percGap(valorDolarAhorro, valorDolarBlue))  }}</b>
+      </div>
+
+      <div class="item item-divider">
+        <h2> Turista (+35%) vs Blue </h2>
+      </div>
+      <div class="item">
+        Diferencia absoluta: <b>AR$ {{valorCompare * gap(valorDolarTarjeta, valorDolarBlue) |number:2}}</b>
+      </div>
+      <div class="item">
+        Diferencia relativa: <b>{{ percFormat(percGap(valorDolarTarjeta, valorDolarBlue))  }}</b>
+      </div>
+
+    </div>
+
+
+  </ion-content>
+</ion-view>

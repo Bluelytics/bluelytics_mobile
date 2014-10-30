@@ -8,9 +8,12 @@
  * Controller of the bluemobile.controllers
  */
 angular.module('bluemobile.controllers')
-  .controller('GapCtrl', function ($scope, blueAPI, $window) {
+  .controller('GapCtrl', function ($scope, blueAPI, $window, $ionicSideMenuDelegate) {
 
-    var dateFormat = d3.time.format("%d/%m/%Y");
+    $scope.toggleLeft = function() {
+      $ionicSideMenuDelegate.toggleLeft();
+    };
+    
     /* Gap calculator */
 
     $scope.valorCompare = 1;
@@ -28,17 +31,9 @@ angular.module('bluemobile.controllers')
         return (blue - ofi) / ofi;
     }
 
-    /* Graph */
-
-    $scope.dateFormat = d3.time.format("%d/%m/%Y");
-    $scope.percFormat = d3.format('.02%');
-
-    $scope.tickX = function(d){
-                        return $scope.dateFormat(new Date(d));
-                    };
-    $scope.tickY = function(d){
-                        return $scope.percFormat(d);
-                    };
+    $scope.percFormat = function percFormat(value){
+      return (value*100).toFixed(2) + "%";
+    }
 
     /* Requests */
 
@@ -61,41 +56,6 @@ angular.module('bluemobile.controllers')
                     break;
             }
         }
-    });
-
-    blueAPI.graph_gap_data(function(data){
-
-      var evData = data;
-
-      
-      if($window.innerWidth < 768 && evData.length > 60){
-        evData.splice(0, evData.length - 60);
-      }
-      
-      $scope.data = evData;
-        
-
-      $scope.options = {
-        axes: {
-          x: {key: 'date', type: 'date', labelFunction: function(d){return dateFormat(d);}},
-          y: {type: 'linear'},
-        },
-        series: [
-          {y: 'brecha', color: 'red', axis:"y", type: 'line',thickness: "1px", label: 'Brecha'}
-        ],
-        tooltip: {
-          mode: "scrubber",
-          formatter: function (x, y, series) {
-            return dateFormat(x) + ' : ' + $scope.percFormat(y/100);
-          }
-        },
-        stacks: [],
-        lineMode: "linear",
-        drawLegend: true,
-        drawDots: false,
-        columnsHGap: 5
-      }
-
     });
 
   });
