@@ -2,7 +2,7 @@
 # http://git-scm.com/docs/gitignore
 
 node_modules/
-platforms/android/ant-build
+ant-build/
 platforms/android/assets
 plugins/
 /www/lib
