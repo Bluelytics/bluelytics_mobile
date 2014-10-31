@@ -8,11 +8,17 @@
  * Controller of the bluemobile.controllers
  */
 angular.module('bluemobile.controllers')
-  .controller('CalculatorCtrl', function ($scope, $filter, blueAPI, $ionicSideMenuDelegate) {
+  .controller('CalculatorCtrl', function ($scope, $filter, blueAPI, $ionicSideMenuDelegate, $ionicLoading) {
 
     $scope.toggleLeft = function() {
       $ionicSideMenuDelegate.toggleLeft();
     };
+
+
+    $scope.loadingIndicator = $ionicLoading.show({
+        template: 'Cargando datos...',
+        delay:200
+    });
 
     $scope.moneda = {};
     $scope.calculo = {};
@@ -51,6 +57,9 @@ angular.module('bluemobile.controllers')
             }
             
         }
+
+        
+        $scope.loadingIndicator.hide();
     });
     
 

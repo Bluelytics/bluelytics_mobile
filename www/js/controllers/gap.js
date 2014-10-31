@@ -8,11 +8,17 @@
  * Controller of the bluemobile.controllers
  */
 angular.module('bluemobile.controllers')
-  .controller('GapCtrl', function ($scope, blueAPI, $window, $ionicSideMenuDelegate) {
+  .controller('GapCtrl', function ($scope, blueAPI, $window, $ionicSideMenuDelegate, $ionicLoading) {
 
     $scope.toggleLeft = function() {
       $ionicSideMenuDelegate.toggleLeft();
     };
+
+
+    $scope.loadingIndicator = $ionicLoading.show({
+        template: 'Cargando datos...',
+        delay:200
+    });
     
     /* Gap calculator */
 
@@ -56,6 +62,9 @@ angular.module('bluemobile.controllers')
                     break;
             }
         }
+
+        
+        $scope.loadingIndicator.hide();
     });
 
   });

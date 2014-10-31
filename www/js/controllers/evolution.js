@@ -8,11 +8,17 @@
  * Controller of the bluemobile.controllers
  */
 angular.module('bluemobile.controllers')
-  .controller('EvolutionCtrl', function ($scope, blueAPI, $window, $ionicSideMenuDelegate) {
+  .controller('EvolutionCtrl', function ($scope, blueAPI, $window, $ionicSideMenuDelegate, $ionicLoading) {
 
     $scope.toggleLeft = function() {
       $ionicSideMenuDelegate.toggleLeft();
     };
+
+
+    $scope.loadingIndicator = $ionicLoading.show({
+        template: 'Cargando datos...',
+        delay:200
+    });
 
     $scope.valores = [];
 
@@ -28,6 +34,9 @@ angular.module('bluemobile.controllers')
         $scope.valores.push(grouped[grouped.length-1+offset]);
 
       }
+
+
+      $scope.loadingIndicator.hide();
     });
 
   });
