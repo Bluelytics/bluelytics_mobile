@@ -4,33 +4,55 @@
     <h1 class="title">Evolucion</h1>
   </ion-header-bar>
   <ion-content>
-  <div class="list">
+    <div ng-if="dataStatus=='loaded'">
+      <div class="list">
 
-    <div class="item item-divider tabs tabs-secondary">
-      <span class="tab-item">
-        Fecha
-      </span>
-      <span class="tab-item">
-        Oficial
-      </span>
-      <span class="tab-item">
-        Blue
-      </span>
+        <div class="item item-divider tabs tabs-secondary">
+          <span class="tab-item">
+            Fecha
+          </span>
+          <span class="tab-item">
+            Oficial
+          </span>
+          <span class="tab-item">
+            Blue
+          </span>
+          <span class="tab-item">
+            Brecha
+          </span>
+        </div>
+
+        <div class="item tabs tabs-secondary" ng-repeat="valor in valores">
+          <span class="tab-item">
+            {{valor.date}}
+          </span>
+          <span class="tab-item">
+            {{valor.oficial |number:2}}
+          </span>
+          <span class="tab-item">
+            {{valor.blue |number:2}}
+          </span>
+          <span class="tab-item">
+            {{((valor.blue - valor.oficial) / valor.oficial) * 100 |number:2}}%
+          </span>
+        </div>
+
+      </div>
+
+
     </div>
 
-    <div class="item tabs tabs-secondary" ng-repeat="valor in valores">
-      <span class="tab-item">
-          {{valor.date}}
-      </span>
-      <span class="tab-item">
-          {{valor.oficial |number:2}}
-      </span>
-      <span class="tab-item">
-          {{valor.blue |number:2}}
-      </span>
-    </div>
+    <div ng-if="dataStatus=='error'">
 
-  </div>
+      <div class="row">
+        <div class="col">
+          <p style="text-align:center;">Error de conexion con el servidor</p>
+          <button class="button button-block button-default" ng-click="loadData()">
+            Reintentar <i class="icon ion-refresh"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 
   </ion-content>
 </ion-view>

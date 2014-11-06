@@ -14,12 +14,6 @@ angular.module('bluemobile.controllers')
       $ionicSideMenuDelegate.toggleLeft();
     };
 
-
-    $scope.loadingIndicator = $ionicLoading.show({
-        template: 'Cargando datos...',
-        delay:200
-    });
-    
     /* Gap calculator */
 
     $scope.valorCompare = 1;
@@ -43,28 +37,46 @@ angular.module('bluemobile.controllers')
 
     /* Requests */
 
-    blueAPI.extended_last_price(function(dolares){
-                
-        for(var i = 0; i < dolares.length; i++){
-            var dolar = dolares[i];
-            switch(dolar.name){
-                case 'oficial':
-                    $scope.valorDolarOficial = dolar.avg;
-                    break;
-                case 'oficial_20':
-                    $scope.valorDolarAhorro = dolar.avg;
-                    break;
-                case 'oficial_35':
-                    $scope.valorDolarTarjeta = dolar.avg;
-                    break;
-                case 'blue':
-                    $scope.valorDolarBlue = dolar.avg;
-                    break;
-            }
-        }
+    $scope.dataStatus = '';
 
-        
-        $scope.loadingIndicator.hide();
-    });
+    $scope.loadData = function loadData(){
+      $scope.dataStatus = 'loading';
+
+      $scope.loadingIndicator = $ionicLoading.show({
+          template: 'Cargando datos... <br> <i class="icon ion-loading-a"></i>',
+          delay:200
+      });
+
+      blueAPI.extended_last_price(function(dolares){
+
+          for(var i = 0; i < dolares.length; i++){
+              var dolar = dolares[i];
+              switch(dolar.name){
+                  case 'oficial':
+                      $scope.valorDolarOficial = dolar.avg;
+                      break;
+                  case 'oficial_20':
+                      $scope.valorDolarAhorro = dolar.avg;
+                      break;
+                  case 'oficial_35':
+                      $scope.valorDolarTarjeta = dolar.avg;
+                      break;
+                  case 'blue':
+                      $scope.valorDolarBlue = dolar.avg;
+                      break;
+              }
+          }
+
+
+          $scope.dataStatus = 'loaded';
+          $ionicLoading.hide();
+      }, function(){
+        $ionicLoading.hide();
+        $scope.dataStatus = 'error';
+      });
+
+    };
+
+    $scope.loadData();
 
   });

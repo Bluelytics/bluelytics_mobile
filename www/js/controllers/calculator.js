@@ -15,11 +15,6 @@ angular.module('bluemobile.controllers')
     };
 
 
-    $scope.loadingIndicator = $ionicLoading.show({
-        template: 'Cargando datos...',
-        delay:200
-    });
-
     $scope.moneda = {};
     $scope.calculo = {};
     $scope.dolar = {};
@@ -35,33 +30,48 @@ angular.module('bluemobile.controllers')
     $scope.update_ext = function update_ext(){
         if($scope.dolar.activo.avg && $scope.moneda.selected){
             $scope.calculo.ext =  parseFloat( (($scope.calculo.ars / $scope.dolar.activo.avg) * $scope.moneda.selected.value).toFixed(2));
-            
-            console.log($scope.calculo.ars + "/" + $scope.dolar.activo.avg);
         }
 
     };
 
-    blueAPI.extended_last_price(function(value){
-        $scope.dolares = $filter('filter')(value, function(dolar){
-            return (dolar.name === 'oficial' || dolar.name === 'blue' || dolar.name === 'oficial_20' || dolar.name === 'oficial_35');
-        }, true);
-        $scope.dolar.activo = $scope.dolares[0];
-        $scope.update_ext();
-    });
+    $scope.dataStatus = '';
+
+    $scope.loadData = function loadData(){
+      $scope.dataStatus = 'loading';
+
+      $scope.loadingIndicator = $ionicLoading.show({
+          template: 'Cargando datos... <br> <i class="icon ion-loading-a"></i>',
+          delay:200
+      });
+
+      blueAPI.extended_last_price(function(value){
+          $scope.dolares = $filter('filter')(value, function(dolar){
+              return (dolar.name === 'oficial' || dolar.name === 'blue' || dolar.name === 'oficial_20' || dolar.name === 'oficial_35');
+          }, true);
+          $scope.dolar.activo = $scope.dolares[0];
+          $scope.update_ext();
+      });
 
 
-    $scope.monedas = blueAPI.all_currencies.query({}, function(){
-        for(var i = 0; i < $scope.monedas.length; i++){
-            if($scope.monedas[i].code === 'USD'){
-                $scope.moneda.selected = $scope.monedas[i];
-            }
-            
-        }
+      $scope.monedas = blueAPI.all_currencies.query({}, function(){
+          for(var i = 0; i < $scope.monedas.length; i++){
+              if($scope.monedas[i].code === 'USD'){
+                  $scope.moneda.selected = $scope.monedas[i];
+              }
 
-        
-        $scope.loadingIndicator.hide();
-    });
-    
+          }
+
+          $scope.dataStatus = 'loaded';
+          $ionicLoading.hide();
+      }, function(){
+        $ionicLoading.hide();
+        $scope.dataStatus = 'error';
+      });
+
+    };
+
+    $scope.loadData();
+
 
 
   });

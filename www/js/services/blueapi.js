@@ -12,7 +12,6 @@ angular.module('bluemobile.services', [])
     var valoresBlue = null;
 
     var backendUrl = 'http://api.bluelytics.com.ar/';
-    //var backendUrl = 'http://localhost:8000/';
 
     var percGap = function percGap(ofi, blue){
         return (blue - ofi) / ofi;
@@ -65,8 +64,9 @@ angular.module('bluemobile.services', [])
         'wordcloud_oficialistas': wordcloud_oficialistas_resource,
         'wordcloud_oposicion': wordcloud_oposicion_resource,
 
-        'extended_last_price': function extended_last_price(callback){
+        'extended_last_price': function extended_last_price(callback, err_callback){
             var mycall = callback;
+            var errcall = err_callback;
             last_price_resource.query({}, function(value, headers){
                 var newDolares = [];
 
@@ -81,6 +81,8 @@ angular.module('bluemobile.services', [])
                 }
 
                 mycall(value);
+            }, function(response){
+                err_callback(response);
             });
         },
 
@@ -99,7 +101,7 @@ angular.module('bluemobile.services', [])
                     allData = allData.concat(appendData);
                   }
               }
-              
+
 
             var dataByDate = _.groupBy(allData, function(a){return a.datepart;});
 

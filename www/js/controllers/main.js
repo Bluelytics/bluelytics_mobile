@@ -9,22 +9,37 @@
  */
 angular.module('bluemobile.controllers')
   .controller('MainCtrl', function ($scope, $location, blueAPI, $ionicSideMenuDelegate, $ionicLoading) {
-    
+
     $scope.toggleLeft = function() {
       $ionicSideMenuDelegate.toggleLeft();
     };
 
-    $scope.loadingIndicator = $ionicLoading.show({
-        template: 'Cargando datos...',
-        delay:200
-    });
 
-    blueAPI.extended_last_price(function(value){
-        $scope.dolares = value;
-        $scope.loadingIndicator.hide();
-    });
+    $scope.dataStatus = '';
 
-    
+    $scope.loadData = function loadData(){
+      $scope.dataStatus = 'loading';
+
+      $scope.loadingIndicator = $ionicLoading.show({
+          template: 'Cargando datos... <br> <i class="icon ion-loading-a"></i>',
+          delay:200
+      });
+
+      blueAPI.extended_last_price(function(value){
+          $scope.dolares = value;
+          $ionicLoading.hide();
+          $scope.dataStatus = 'loaded';
+      },function(response){
+        $ionicLoading.hide();
+        $scope.dataStatus = 'error';
+      });
+    }
+
+    $scope.loadData();
+
+
+
+
   	$scope.dolar_activo = 'blue';
 
     $scope.cambiarDolar = function (dolar){

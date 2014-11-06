@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('bluemobile', [
+var app = angular.module('bluemobile', [
   'ionic',
   'bluemobile.controllers',
   'bluemobile.services',
@@ -12,7 +12,7 @@ angular.module('bluemobile', [
   'underscore'
   ])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $ionicSideMenuDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -22,6 +22,17 @@ angular.module('bluemobile', [
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }
+    if(window.cordova){
+      var deleg = $ionicSideMenuDelegate;
+      var onMenu = function onMenu(){
+        deleg.toggleLeft();
+        console.log('b');
+      }
+      console.log('a');
+      document.addEventListener("menubutton", onMenu, false);
+
+      navigator.splashscreen.hide();
     }
   });
 })
@@ -61,4 +72,3 @@ angular.module('bluemobile', [
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/');
 });
-

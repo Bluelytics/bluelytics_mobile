@@ -4,6 +4,7 @@
 node_modules/
 ant-build/
 platforms/android/assets
+platforms/android/src/
 plugins/
 /www/lib
 /www/css

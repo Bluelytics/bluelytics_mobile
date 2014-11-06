@@ -14,29 +14,40 @@ angular.module('bluemobile.controllers')
       $ionicSideMenuDelegate.toggleLeft();
     };
 
+    $scope.dataStatus = '';
 
-    $scope.loadingIndicator = $ionicLoading.show({
-        template: 'Cargando datos...',
-        delay:200
-    });
+    $scope.loadData = function loadData(){
+      $scope.dataStatus = 'loading';
 
-    $scope.valores = [];
-
-    blueAPI.graph_data.query({}, function(value, headers){
-      var grouped = blueAPI.group_graph_data(value);
-
-      var step = 7;
-      var amount = 10;
+      $scope.loadingIndicator = $ionicLoading.show({
+          template: 'Cargando datos... <br> <i class="icon ion-loading-a"></i>',
+          delay:200
+      });
 
       $scope.valores = [];
-      for(var i = 0; i <= amount; i++){
-        var offset = (i-amount)*step;
-        $scope.valores.push(grouped[grouped.length-1+offset]);
 
-      }
+      blueAPI.graph_data.query({}, function(value, headers){
+        var grouped = blueAPI.group_graph_data(value);
+
+        var step = 7;
+        var amount = 10;
+
+        $scope.valores = [];
+        for(var i = 0; i <= amount; i++){
+          var offset = (i-amount)*step;
+          $scope.valores.push(grouped[grouped.length-1+offset]);
+
+        }
 
 
-      $scope.loadingIndicator.hide();
-    });
+        $scope.dataStatus = 'loaded';
+        $ionicLoading.hide();
+      }, function(){
+        $ionicLoading.hide();
+        $scope.dataStatus = 'error';
+      });
+    };
+
+    $scope.loadData();
 
   });

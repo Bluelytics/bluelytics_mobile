@@ -4,33 +4,49 @@
     <h1 class="title">Calculadora</h1>
   </ion-header-bar>
   <ion-content>
-    <div class="list">
+    <div ng-if="dataStatus=='loaded'">
+      <div class="list">
 
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Valor Dolar
-        </div>
-        <select ng-model="dolar.activo" ng-change="update_ars()" ng-options="dolar.long_name for dolar in dolares"></select>
-      </label>
-      <label class="item item-input item-select">
-        <div class="input-label">
-          Moneda extranjera
-        </div>
-        <select ng-model="moneda.selected" ng-change="update_ext()" ng-options="moneda.name for moneda in monedas"></select>
-      </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Valor Dolar
+          </div>
+          <select ng-model="dolar.activo" ng-change="update_ars()" ng-options="dolar.long_name for dolar in dolares"></select>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Moneda extranjera
+          </div>
+          <select ng-model="moneda.selected" ng-change="update_ext()" ng-options="moneda.name for moneda in monedas"></select>
+        </label>
+
+      </div>
+
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Pesos Argentinos</span>
+          <input type="number" min="0" ng-model="calculo.ars" ng-change="update_ext()">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">{{moneda.selected.name}}</span>
+          <input type="number" min="0" ng-model="calculo.ext" ng-change="update_ars()">
+        </label>
+      </div>
+
+
 
     </div>
-    
-    <div class="list">
-      <label class="item item-input">
-        <span class="input-label">Pesos Argentinos</span>
-        <input type="number" min="0" ng-model="calculo.ars" ng-change="update_ext()">
-      </label>
 
-      <label class="item item-input">
-        <span class="input-label">{{moneda.selected.name}}</span>
-        <input type="number" min="0" ng-model="calculo.ext" ng-change="update_ars()">
-      </label>
+    <div ng-if="dataStatus=='error'">
+
+      <div class="row">
+        <div class="col">
+          <p style="text-align:center;">Error de conexion con el servidor</p>
+          <button class="button button-block button-default" ng-click="loadData()">
+            Reintentar <i class="icon ion-refresh"></i>
+          </button>
+        </div>
+      </div>
     </div>
 
   </ion-content>
