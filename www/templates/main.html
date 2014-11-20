@@ -3,67 +3,68 @@
     <button class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
     <h1 class="title">Valor actual</h1>
   </ion-header-bar>
-  <ion-content>
+  <ion-content scroll="false">
 
     <div ng-if="dataStatus=='loaded'">
+        <div class="list card precios" ng-repeat="dolar in dolares |filter:dolar_activo:true">
+          <div class="item tabs tabs-secondary tabs-icon-left">
+            <span class="tab-item">
+              Compra
+            </span>
+            <span class="tab-item valor">
+              {{dolar.compra | number:2}}
+            </span>
+            <span class="tab-item">
+              <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.compra_dif < 0), 'ion-arrow-graph-up-right': (dolar.compra_dif > 0), 'ion-minus-round': (dolar.compra_dif == 0)}"></i>
+              {{dolar.compra_dif | number:2}}
+            </span>
+          </div>
 
-      <div class="list card precios" ng-repeat="dolar in dolares |filter:dolar_activo:true">
-        <div class="item tabs tabs-secondary tabs-icon-left">
-          <span class="tab-item">
-            Compra
-          </span>
-          <span class="tab-item valor">
-            {{dolar.compra | number:2}}
-          </span>
-          <span class="tab-item">
-            <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.compra_dif < 0), 'ion-arrow-graph-up-right': (dolar.compra_dif > 0), 'ion-minus-round': (dolar.compra_dif == 0)}"></i>
-            {{dolar.compra_dif | number:2}}
-          </span>
+          <div class="item tabs tabs-secondary tabs-icon-left">
+            <span class="tab-item">
+              Intermedio
+            </span>
+            <span class="tab-item valor">
+              {{dolar.avg | number:2}}
+            </span>
+            <span class="tab-item">
+              <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.avg_dif < 0), 'ion-arrow-graph-up-right': (dolar.avg_dif > 0), 'ion-minus-round': (dolar.avg_dif == 0)}"></i>
+              {{dolar.avg_dif | number:2}}
+            </span>
+          </div>
+
+          <div class="item tabs tabs-secondary tabs-icon-left">
+            <span class="tab-item">
+              Venta
+            </span>
+            <span class="tab-item valor">
+              {{dolar.venta | number:2}}
+            </span>
+            <span class="tab-item">
+              <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.venta_dif < 0), 'ion-arrow-graph-up-right': (dolar.venta_dif > 0), 'ion-minus-round': (dolar.venta_dif == 0)}"></i>
+              {{dolar.venta_dif | number:2}}
+            </span>
+          </div>
+
         </div>
 
-        <div class="item tabs tabs-secondary tabs-icon-left">
-          <span class="tab-item">
-            Intermedio
-          </span>
-          <span class="tab-item valor">
-            {{dolar.avg | number:2}}
-          </span>
-          <span class="tab-item">
-            <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.avg_dif < 0), 'ion-arrow-graph-up-right': (dolar.avg_dif > 0), 'ion-minus-round': (dolar.avg_dif == 0)}"></i>
-            {{dolar.avg_dif | number:2}}
-          </span>
+      <ion-scroll style="height: {{windowHeight - 200}}px">
+        <div class="card">
+          <div ng-repeat="dolar in dolares | filter:esOficial">
+            <button class="button button-block" ng-class="{ 'button-balanced': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
+              {{dolar.long_name}}
+            </button>
+          </div>
+
+          <div ng-repeat="dolar in dolares | filter:esBlue">
+            <button class="button button-block" ng-class="{ 'button-positive': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
+              {{dolar.long_name}}
+            </button>
+          </div>
         </div>
-
-        <div class="item tabs tabs-secondary tabs-icon-left">
-          <span class="tab-item">
-            Venta
-          </span>
-          <span class="tab-item valor">
-            {{dolar.venta | number:2}}
-          </span>
-          <span class="tab-item">
-            <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.venta_dif < 0), 'ion-arrow-graph-up-right': (dolar.venta_dif > 0), 'ion-minus-round': (dolar.venta_dif == 0)}"></i>
-            {{dolar.venta_dif | number:2}}
-          </span>
-        </div>
-
-      </div>
-
-      <div class="card">
-        <div ng-repeat="dolar in dolares | filter:esOficial">
-          <button class="button button-block" ng-class="{ 'button-balanced': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
-            {{dolar.long_name}}
-          </button>
-        </div>
-
-        <div ng-repeat="dolar in dolares | filter:esBlue">
-          <button class="button button-block" ng-class="{ 'button-positive': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
-            {{dolar.long_name}}
-          </button>
-        </div>
+      </ion-scroll>
 
 
-      </div>
     </div>
 
     <div ng-if="dataStatus=='error'">

@@ -8,11 +8,22 @@
  * Controller of the bluemobile.controllers
  */
 angular.module('bluemobile.controllers')
-  .controller('MainCtrl', function ($scope, $location, blueAPI, $ionicSideMenuDelegate, $ionicLoading) {
+  .controller('MainCtrl', function ($scope, $location, blueAPI, $ionicSideMenuDelegate, $ionicLoading, $window) {
 
     $scope.toggleLeft = function() {
       $ionicSideMenuDelegate.toggleLeft();
     };
+
+    $scope.initializeWindowSize = function(){
+      $scope.windowHeight = $window.innerHeight;
+    };
+
+    $scope.initializeWindowSize();
+
+    angular.element($window).bind('resize', function() {
+      $scope.initializeWindowSize();
+      $scope.$apply();
+    });
 
 
     $scope.dataStatus = '';
@@ -40,7 +51,7 @@ angular.module('bluemobile.controllers')
 
 
 
-  	$scope.dolar_activo = 'blue';
+    $scope.dolar_activo = 'blue';
 
     $scope.cambiarDolar = function (dolar){
       $scope.dolar_activo = dolar;
