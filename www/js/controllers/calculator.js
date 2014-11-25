@@ -19,7 +19,7 @@ angular.module('bluemobile.controllers')
     $scope.calculo = {};
     $scope.dolar = {};
     $scope.calculo.ars = 0;
-    $scope.calculo.ext = 0;
+    $scope.calculo.ext = 1;
 
     $scope.update_ars = function update_ars(){
         if($scope.dolar.activo.avg && $scope.moneda.selected){
@@ -49,7 +49,6 @@ angular.module('bluemobile.controllers')
               return (dolar.name === 'oficial' || dolar.name === 'blue' || dolar.name === 'oficial_20' || dolar.name === 'oficial_35');
           }, true);
           $scope.dolar.activo = $scope.dolares[0];
-          $scope.update_ext();
       });
 
 
@@ -61,6 +60,7 @@ angular.module('bluemobile.controllers')
 
           }
 
+          $scope.update_ars();
           $scope.dataStatus = 'loaded';
           $ionicLoading.hide();
       }, function(){

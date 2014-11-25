@@ -13,6 +13,18 @@ angular.module('bluemobile.controllers')
     $scope.toggleLeft = function() {
       $ionicSideMenuDelegate.toggleLeft();
     };
+    
+
+    $scope.initializeWindowSize = function(){
+      $scope.windowHeight = $window.innerHeight;
+    };
+
+    $scope.initializeWindowSize();
+
+    angular.element($window).bind('resize', function() {
+      $scope.initializeWindowSize();
+      $scope.$apply();
+    });
 
     $scope.dataStatus = '';
 

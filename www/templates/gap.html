@@ -10,7 +10,7 @@
       <div class="list list-inset">
         <label class="item item-input">
           <i class="icon ion-social-usd placeholder-icon"> (USD)</i>
-          <input type="number" ng-model="valorCompare" min="0" ng-change="update_ext()">
+          <input class="right" type="number" ng-model="valorCompare" min="0" ng-change="update_ext()">
         </label>
       </div>
 
@@ -20,30 +20,51 @@
           <h2> Oficial vs Blue </h2>
         </div>
         <div class="item">
-          Diferencia absoluta: <b>AR$ {{valorCompare * gap(valorDolarOficial, valorDolarBlue) |number:2}}</b>
+          <div class="row">
+            <div class="col col-75">Diferencia absoluta</div>
+            <div class="col right"><b>AR$ {{valorCompare * gap(valorDolarOficial, valorDolarBlue) |number:2}}</b></div>
+          </div>
+
         </div>
         <div class="item">
-          Diferencia relativa: <b>{{ percFormat(percGap(valorDolarOficial, valorDolarBlue))  }}</b>
+          <div class="row">
+            <div class="col col-75">Diferencia relativa</div>
+            <div class="col right"><b>{{ percFormat(percGap(valorDolarOficial, valorDolarBlue))  }}</b></div>
+          </div>
         </div>
 
         <div class="item item-divider">
           <h2> Ahorro (+20%) vs Blue </h2>
         </div>
         <div class="item">
-          Diferencia absoluta: <b>AR$ {{valorCompare * gap(valorDolarAhorro, valorDolarBlue) |number:2}}</b>
+          <div class="row">
+            <div class="col col-75">Diferencia absoluta</div>
+            <div class="col right"><b>AR$ {{valorCompare * gap(valorDolarAhorro, valorDolarBlue) |number:2}}</b></div>
+          </div>
         </div>
+
         <div class="item">
-          Diferencia relativa: <b>{{ percFormat(percGap(valorDolarAhorro, valorDolarBlue))  }}</b>
+          <div class="row">
+            <div class="col col-75">Diferencia relativa</div>
+            <div class="col right"><b>{{ percFormat(percGap(valorDolarAhorro, valorDolarBlue))  }}</b></div>
+          </div>
         </div>
 
         <div class="item item-divider">
           <h2> Turista (+35%) vs Blue </h2>
         </div>
         <div class="item">
-          Diferencia absoluta: <b>AR$ {{valorCompare * gap(valorDolarTarjeta, valorDolarBlue) |number:2}}</b>
+          <div class="row">
+            <div class="col col-75">Diferencia absoluta</div>
+            <div class="col right"><b>AR$ {{valorCompare * gap(valorDolarTarjeta, valorDolarBlue) |number:2}}</b></div>
+          </div>
         </div>
+
         <div class="item">
-          Diferencia relativa: <b>{{ percFormat(percGap(valorDolarTarjeta, valorDolarBlue))  }}</b>
+          <div class="row">
+            <div class="col col-75">Diferencia relativa</div>
+            <div class="col right"><b>{{ percFormat(percGap(valorDolarTarjeta, valorDolarBlue))  }}</b></div>
+          </div>
         </div>
 
       </div>

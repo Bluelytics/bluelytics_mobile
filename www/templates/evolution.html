@@ -22,21 +22,22 @@
           </span>
         </div>
 
-        <div class="item tabs tabs-secondary" ng-repeat="valor in valores">
-          <span class="tab-item">
-            {{valor.date}}
-          </span>
-          <span class="tab-item">
-            {{valor.oficial |number:2}}
-          </span>
-          <span class="tab-item">
-            {{valor.blue |number:2}}
-          </span>
-          <span class="tab-item">
-            {{((valor.blue - valor.oficial) / valor.oficial) * 100 |number:2}}%
-          </span>
-        </div>
-
+        <ion-scroll style="height: {{windowHeight - 50}}px">
+          <div class="item tabs tabs-secondary" ng-repeat="valor in valores">
+            <span class="tab-item">
+              {{valor.date}}
+            </span>
+            <span class="tab-item">
+              {{valor.oficial |number:2}}
+            </span>
+            <span class="tab-item">
+              {{valor.blue |number:2}}
+            </span>
+            <span class="tab-item">
+              {{((valor.blue - valor.oficial) / valor.oficial) * 100 |number:2}}%
+            </span>
+          </div>
+        </ion-scroll>
       </div>
 
 

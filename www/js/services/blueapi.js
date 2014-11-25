@@ -11,7 +11,7 @@ angular.module('bluemobile.services', [])
   .service('blueAPI', function blueAPI($resource, $q, _) {
     var valoresBlue = null;
 
-    var backendUrl = 'http://localhost:8000/';
+    var backendUrl = 'http://api.bluelytics.com.ar/';
 
     var percGap = function percGap(ofi, blue){
         return (blue - ofi) / ofi;
