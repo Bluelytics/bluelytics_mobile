@@ -5,6 +5,10 @@
   </ion-header-bar>
   <ion-content scroll="false">
 
+    <div ng-if="loadingNew==true" class="center">
+        <i class="icon ion-loading-a big-loading"></i>
+    </div>
+
     <div ng-if="dataStatus=='loaded'">
         <div class="list card precios" ng-repeat="dolar in dolares |filter:dolar_activo:true">
           <div class="item tabs tabs-secondary tabs-icon-left">

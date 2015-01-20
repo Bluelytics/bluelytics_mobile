@@ -29,17 +29,28 @@ angular.module('bluemobile.controllers')
     $scope.dataStatus = '';
 
     $scope.loadData = function loadData(){
-      $scope.dataStatus = 'loading';
 
-      $scope.loadingIndicator = $ionicLoading.show({
+      $scope.dolares = {};
+
+      if($window.localStorage['dolares']){
+        $scope.dolares = JSON.parse($window.localStorage['dolares']);
+        $scope.dataStatus = 'loaded';
+        $scope.loadingNew = true;
+      }else {
+        $scope.dataStatus = 'loading';
+
+        $scope.loadingIndicator = $ionicLoading.show({
           template: 'Cargando datos... <br> <i class="icon ion-loading-a"></i>',
           delay:200
-      });
+        });
+      }
 
       blueAPI.extended_last_price(function(value){
           $scope.dolares = value;
+          $window.localStorage['dolares'] = JSON.stringify(value);
           $ionicLoading.hide();
           $scope.dataStatus = 'loaded';
+          $scope.loadingNew = false;
       },function(response){
         $ionicLoading.hide();
         $scope.dataStatus = 'error';
