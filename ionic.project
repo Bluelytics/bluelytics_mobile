@@ -2,11 +2,11 @@
   "name": "bluelytics_mobile",
   "app_id": "",
   "gulpStartupTasks": [
-    "sass",
+    "build",
     "watch"
   ],
   "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
+    "src/**/*",
+    "!src/lib/**/*"
   ]
 }
