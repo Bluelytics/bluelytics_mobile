@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var serve = require('gulp-serve');
 var gutil = require('gulp-util');
 var bower = require('bower');
 var concat = require('gulp-concat');
@@ -35,6 +36,11 @@ var files = {
 gulp.task('default', ['sass']);
 
 gulp.task('build', ['sass', 'scripts', 'styles', 'imagemin', 'index', 'copy']);
+
+gulp.task('serve', serve({
+  root: 'src',
+  port: 8100
+}));
 
 gulp.task('clean', function() {
   return gulp.src(paths.dist, {

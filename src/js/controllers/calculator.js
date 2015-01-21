@@ -49,7 +49,10 @@ angular.module('bluemobile.controllers')
       if($window.localStorage['dolares'] && $window.localStorage['monedas']){
         $scope.dolares = JSON.parse($window.localStorage['dolares']);
         $scope.monedas = JSON.parse($window.localStorage['monedas']);
+
+        $scope.dolar.activo = $scope.dolares[0];
         selectUSD();
+
         $scope.dataStatus = 'loaded';
         $scope.loadingNew = true;
       }else {
@@ -69,11 +72,12 @@ angular.module('bluemobile.controllers')
           $scope.dolar.activo = $scope.dolares[0];
 
           $window.localStorage['dolares'] = JSON.stringify($scope.dolares);
-      });
+      }, function(){});
 
 
-      $scope.monedas = blueAPI.all_currencies.query({}, function(){
-          $window.localStorage['monedas'] = JSON.stringify($scope.monedas);
+      blueAPI.all_currencies.query({}, function(monedas){
+        $scope.monedas = monedas;
+          $window.localStorage['monedas'] = JSON.stringify(monedas);
           selectUSD();
 
           $scope.update_ars();
