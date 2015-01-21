@@ -40,39 +40,56 @@ angular.module('bluemobile.controllers')
     $scope.dataStatus = '';
 
     $scope.loadData = function loadData(){
-      $scope.dataStatus = 'loading';
 
-      $scope.loadingIndicator = $ionicLoading.show({
+      var convertValues = function(dolares){
+        for(var i = 0; i < dolares.length; i++){
+          var dolar = dolares[i];
+          switch(dolar.name){
+            case 'oficial':
+              $scope.valorDolarOficial = dolar.avg;
+              break;
+            case 'oficial_20':
+              $scope.valorDolarAhorro = dolar.avg;
+              break;
+            case 'oficial_35':
+              $scope.valorDolarTarjeta = dolar.avg;
+              break;
+            case 'blue':
+              $scope.valorDolarBlue = dolar.avg;
+              break;
+          }
+        }
+      };
+
+      if($window.localStorage['dolares']){
+        var dolares = JSON.parse($window.localStorage['dolares']);
+        convertValues(dolares);
+        $scope.dataStatus = 'loaded';
+        $scope.loadingNew = true;
+      }else {
+        $scope.dataStatus = 'loading';
+
+        $scope.loadingIndicator = $ionicLoading.show({
           template: 'Cargando datos... <br> <i class="icon ion-loading-a"></i>',
           delay:200
-      });
+        });
+      }
 
       blueAPI.extended_last_price(function(dolares){
 
-          for(var i = 0; i < dolares.length; i++){
-              var dolar = dolares[i];
-              switch(dolar.name){
-                  case 'oficial':
-                      $scope.valorDolarOficial = dolar.avg;
-                      break;
-                  case 'oficial_20':
-                      $scope.valorDolarAhorro = dolar.avg;
-                      break;
-                  case 'oficial_35':
-                      $scope.valorDolarTarjeta = dolar.avg;
-                      break;
-                  case 'blue':
-                      $scope.valorDolarBlue = dolar.avg;
-                      break;
-              }
-          }
-
+        $window.localStorage['dolares'] = JSON.stringify(dolares);
+        convertValues(dolares);
 
           $scope.dataStatus = 'loaded';
+          $scope.loadingNew = false;
           $ionicLoading.hide();
       }, function(){
-        $ionicLoading.hide();
-        $scope.dataStatus = 'error';
+        if($scope.loadingNew){
+          $scope.loadingNew = false;
+        }else{
+          $ionicLoading.hide();
+          $scope.dataStatus = 'error';
+        }
       });
 
     };

@@ -52,8 +52,12 @@ angular.module('bluemobile.controllers')
           $scope.dataStatus = 'loaded';
           $scope.loadingNew = false;
       },function(response){
-        $ionicLoading.hide();
-        $scope.dataStatus = 'error';
+        if($scope.loadingNew){
+          $scope.loadingNew = false;
+        }else{
+          $ionicLoading.hide();
+          $scope.dataStatus = 'error';
+        }
       });
     }
 

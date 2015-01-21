@@ -13,7 +13,7 @@ angular.module('bluemobile.controllers')
     $scope.toggleLeft = function() {
       $ionicSideMenuDelegate.toggleLeft();
     };
-    
+
 
     $scope.initializeWindowSize = function(){
       $scope.windowHeight = $window.innerHeight;
@@ -29,14 +29,22 @@ angular.module('bluemobile.controllers')
     $scope.dataStatus = '';
 
     $scope.loadData = function loadData(){
-      $scope.dataStatus = 'loading';
 
-      $scope.loadingIndicator = $ionicLoading.show({
-          template: 'Cargando datos... <br> <i class="icon ion-loading-a"></i>',
-          delay:200
-      });
 
       $scope.valores = [];
+
+      if($window.localStorage['evolution']){
+        $scope.valores = JSON.parse($window.localStorage['evolution']);
+        $scope.dataStatus = 'loaded';
+        $scope.loadingNew = true;
+      }else {
+        $scope.dataStatus = 'loading';
+
+        $scope.loadingIndicator = $ionicLoading.show({
+          template: 'Cargando datos... <br> <i class="icon ion-loading-a"></i>',
+          delay:200
+        });
+      }
 
       blueAPI.graph_data.query({}, function(value, headers){
         var grouped = blueAPI.group_graph_data(value);
@@ -48,15 +56,22 @@ angular.module('bluemobile.controllers')
         for(var i = 0; i <= amount; i++){
           var offset = (i-amount)*step;
           $scope.valores.push(grouped[grouped.length-1+offset]);
-
         }
+
+        $window.localStorage['evolution'] = JSON.stringify($scope.valores);
 
 
         $scope.dataStatus = 'loaded';
+        $scope.loadingNew = false;
         $ionicLoading.hide();
       }, function(){
-        $ionicLoading.hide();
-        $scope.dataStatus = 'error';
+        if($scope.loadingNew){
+          $scope.loadingNew = false;
+        }else{
+          $ionicLoading.hide();
+          $scope.dataStatus = 'error';
+        }
+
       });
     };
 
