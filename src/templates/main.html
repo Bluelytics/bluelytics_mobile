@@ -1,8 +1,4 @@
-<ion-view title="Acerca de">
-  <ion-header-bar class="bar bar-header bar-positive">
-    <button class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
-    <h1 class="title">Valor actual</h1>
-  </ion-header-bar>
+<ion-view title="Valor actual">
   <ion-content scroll="false">
 
     <div ng-if="loadingNew==true" class="center">
@@ -52,7 +48,7 @@
 
         </div>
 
-      <ion-scroll style="height: {{windowHeight - 200}}px">
+      <ion-scroll style="height: {{windowHeight - 250}}px">
         <div class="card">
           <div ng-repeat="dolar in dolares | filter:esOficial">
             <button class="button button-block" ng-class="{ 'button-balanced': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">

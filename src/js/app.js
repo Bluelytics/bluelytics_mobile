@@ -27,9 +27,7 @@ var app = angular.module('bluemobile', [
       var deleg = $ionicSideMenuDelegate;
       var onMenu = function onMenu(){
         deleg.toggleLeft();
-        console.log('b');
       }
-      console.log('a');
       document.addEventListener("menubutton", onMenu, false);
 
       navigator.splashscreen.hide();
@@ -40,35 +38,60 @@ var app = angular.module('bluemobile', [
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('index', {
-      url: "/",
-      templateUrl: "templates/main.html",
-      controller: 'MainCtrl'
+    .state('tab', {
+      url: "/tab",
+      templateUrl: "templates/tabs.html"
     })
 
-    .state('calculator', {
+    .state('tab.rates', {
+      url: "/rates",
+      views: {
+        'tab-rates': {
+          templateUrl: "templates/main.html",
+          controller: 'MainCtrl'
+        }
+      }
+    })
+
+    .state('tab.calc', {
       url: "/calc",
-      templateUrl: "templates/calculator.html",
-      controller: 'CalculatorCtrl'
+      views: {
+        'tab-calc': {
+          templateUrl: "templates/calculator.html",
+          controller: 'CalculatorCtrl'
+        }
+      }
     })
 
-    .state('evolution', {
+    .state('tab.evolution', {
       url: "/evolution",
-      templateUrl: "templates/evolution.html",
-      controller: 'EvolutionCtrl'
+      views: {
+        'tab-evolution': {
+          templateUrl: "templates/evolution.html",
+          controller: 'EvolutionCtrl'
+        }
+      }
     })
 
-    .state('gap', {
+    .state('tab.gap', {
       url: "/gap",
-      templateUrl: "templates/gap.html",
-      controller: 'GapCtrl'
+      views: {
+        'tab-gap': {
+          templateUrl: "templates/gap.html",
+          controller: 'GapCtrl'
+        }
+      }
     })
 
-    .state('about', {
+    .state('tab.about', {
       url: "/about",
-      templateUrl: "templates/about.html",
-      controller: 'AboutCtrl'
-    });
+      views: {
+        'tab-about': {
+          templateUrl: "templates/about.html",
+          controller: 'AboutCtrl'
+        }
+      }
+    })
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/tab/rates');
 });
