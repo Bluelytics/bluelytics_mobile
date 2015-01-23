@@ -1,47 +1,41 @@
-<ion-view title="Acerca de">
-  <ion-header-bar class="bar bar-header bar-positive">
-    <button class="button button-icon icon ion-navicon" ng-click="toggleLeft()"></button>
-    <h1 class="title">Evolucion</h1>
-  </ion-header-bar>
+<ion-view title="Evolucion">
   <ion-content>
     <div ng-if="loadingNew==true" class="center">
       <i class="icon ion-loading-a big-loading"></i>
     </div>
     <div ng-if="dataStatus=='loaded'">
-      <div class="list">
 
-        <div class="item item-divider tabs tabs-secondary">
-          <span class="tab-item">
+        <div class="row table-header">
+          <span class="col">
             Fecha
           </span>
-          <span class="tab-item">
+          <span class="col">
             Oficial
           </span>
-          <span class="tab-item">
+          <span class="col">
             Blue
           </span>
-          <span class="tab-item">
+          <span class="col">
             Brecha
           </span>
         </div>
 
         <ion-scroll style="height: {{windowHeight - 150}}px">
-          <div class="item tabs tabs-secondary" ng-repeat="valor in valores">
-            <span class="tab-item">
-              {{valor.date}}
+          <div class="row table-row" ng-repeat="valor in valores">
+            <span class="col">
+              {{valor.date | date:'dd/MM/yy'}}
             </span>
-            <span class="tab-item">
+            <span class="col color-oficial">
               {{valor.oficial |number:2}}
             </span>
-            <span class="tab-item">
+            <span class="col color-blue">
               {{valor.blue |number:2}}
             </span>
-            <span class="tab-item">
+            <span class="col">
               {{((valor.blue - valor.oficial) / valor.oficial) * 100 |number:2}}%
             </span>
           </div>
         </ion-scroll>
-      </div>
 
 
     </div>

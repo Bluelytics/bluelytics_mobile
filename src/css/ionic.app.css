@@ -7853,3 +7853,23 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
 
 .big-loading {
   font-size: 2em; }
+
+.table-header {
+  background-color: #efefef; }
+
+.table-header > .col {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center; }
+
+.table-row > .col {
+  text-align: center; }
+
+.table-row {
+  margin-top: 3px; }
+
+.color-oficial {
+  color: #048a00; }
+
+.color-blue {
+  color: #020091; }

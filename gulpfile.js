@@ -39,7 +39,8 @@ gulp.task('build', ['sass', 'scripts', 'styles', 'imagemin', 'index', 'copy']);
 
 gulp.task('serve', serve({
   root: 'src',
-  port: 8100
+  port: 8100,
+  livereload: true
 }));
 
 gulp.task('clean', function() {

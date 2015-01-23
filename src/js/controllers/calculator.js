@@ -38,20 +38,43 @@ angular.module('bluemobile.controllers')
 
     $scope.loadData = function loadData(){
 
-      var selectUSD = function(){
+      var selectDolar = function(){
+        var name = 'blue'
+        if($window.localStorage['calc_dolar']){
+          name = $window.localStorage['calc_dolar'];
+        }
+        for(var i = 0; i < $scope.dolares.length; i++){
+          if($scope.dolares[i].name === name){
+            $scope.dolar.activo = $scope.dolares[i];
+          }
+        }
+      };
+
+      var selectMoneda = function(){
+        var name = 'USD'
+        if($window.localStorage['calc_moneda']){
+          name = $window.localStorage['calc_moneda'];
+        }
         for(var i = 0; i < $scope.monedas.length; i++){
-          if($scope.monedas[i].code === 'USD'){
+          if($scope.monedas[i].code === name){
             $scope.moneda.selected = $scope.monedas[i];
           }
         }
       };
 
+      var filterUSD = function(value){
+        return $filter('filter')(value, function(dolar){
+          return (dolar.name === 'oficial' || dolar.name === 'blue' || dolar.name === 'oficial_20' || dolar.name === 'oficial_35');
+        }, true);
+      };
+
       if($window.localStorage['dolares'] && $window.localStorage['monedas']){
-        $scope.dolares = JSON.parse($window.localStorage['dolares']);
+        $scope.dolares = filterUSD(JSON.parse($window.localStorage['dolares']));
         $scope.monedas = JSON.parse($window.localStorage['monedas']);
 
-        $scope.dolar.activo = $scope.dolares[0];
-        selectUSD();
+        selectDolar();
+        selectMoneda();
+        $scope.update_ars();
 
         $scope.dataStatus = 'loaded';
         $scope.loadingNew = true;
@@ -66,19 +89,17 @@ angular.module('bluemobile.controllers')
 
 
       blueAPI.extended_last_price(function(value){
-          $scope.dolares = $filter('filter')(value, function(dolar){
-              return (dolar.name === 'oficial' || dolar.name === 'blue' || dolar.name === 'oficial_20' || dolar.name === 'oficial_35');
-          }, true);
-          $scope.dolar.activo = $scope.dolares[0];
+          $scope.dolares = filterUSD(value);
+          selectDolar();
 
-          $window.localStorage['dolares'] = JSON.stringify($scope.dolares);
+          $window.localStorage['dolares'] = JSON.stringify(value);
       }, function(){});
 
 
       blueAPI.all_currencies.query({}, function(monedas){
         $scope.monedas = monedas;
           $window.localStorage['monedas'] = JSON.stringify(monedas);
-          selectUSD();
+          selectMoneda();
 
           $scope.update_ars();
           $scope.dataStatus = 'loaded';
@@ -96,6 +117,19 @@ angular.module('bluemobile.controllers')
     };
 
     $scope.loadData();
+
+    $scope.$watch('moneda.selected', function(value){
+      if(value){
+        $window.localStorage['calc_moneda'] = value.code;
+      }
+    });
+
+    $scope.$watch('dolar.activo', function(value){
+      if(typeof value == 'object'){
+        $window.localStorage['calc_dolar'] = value.name;
+      }
+    });
+
 
 
 

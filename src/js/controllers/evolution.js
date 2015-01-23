@@ -35,6 +35,7 @@ angular.module('bluemobile.controllers')
 
       if($window.localStorage['evolution']){
         $scope.valores = JSON.parse($window.localStorage['evolution']);
+
         $scope.dataStatus = 'loaded';
         $scope.loadingNew = true;
       }else {
@@ -55,7 +56,12 @@ angular.module('bluemobile.controllers')
         $scope.valores = [];
         for(var i = 0; i <= amount; i++){
           var offset = (i-amount)*step;
-          $scope.valores.push(grouped[grouped.length-1+offset]);
+          var val = grouped[grouped.length-1+offset];
+          var st = val.date;
+          var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+          var dt = new Date(st.replace(pattern,'$3-$2-$1'));
+          val.date = dt;
+          $scope.valores.push(val);
         }
 
         $window.localStorage['evolution'] = JSON.stringify($scope.valores);

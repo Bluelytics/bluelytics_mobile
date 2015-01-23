@@ -8,39 +8,39 @@
     <div ng-if="dataStatus=='loaded'">
         <div class="list card precios" ng-repeat="dolar in dolares |filter:dolar_activo:true">
           <div class="item tabs tabs-secondary tabs-icon-left">
-            <span class="tab-item">
+            <span class="tab-item tab-item-active">
               Compra
             </span>
-            <span class="tab-item valor">
+            <span class="tab-item tab-item-active valor">
               {{dolar.compra | number:2}}
             </span>
-            <span class="tab-item">
+            <span class="tab-item tab-item-active">
               <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.compra_dif < 0), 'ion-arrow-graph-up-right': (dolar.compra_dif > 0), 'ion-minus-round': (dolar.compra_dif == 0)}"></i>
               {{dolar.compra_dif | number:2}}
             </span>
           </div>
 
           <div class="item tabs tabs-secondary tabs-icon-left">
-            <span class="tab-item">
+            <span class="tab-item tab-item-active">
               Intermedio
             </span>
-            <span class="tab-item valor">
+            <span class="tab-item tab-item-active valor">
               {{dolar.avg | number:2}}
             </span>
-            <span class="tab-item">
+            <span class="tab-item tab-item-active">
               <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.avg_dif < 0), 'ion-arrow-graph-up-right': (dolar.avg_dif > 0), 'ion-minus-round': (dolar.avg_dif == 0)}"></i>
               {{dolar.avg_dif | number:2}}
             </span>
           </div>
 
           <div class="item tabs tabs-secondary tabs-icon-left">
-            <span class="tab-item">
+            <span class="tab-item tab-item-active">
               Venta
             </span>
-            <span class="tab-item valor">
+            <span class="tab-item tab-item-active valor">
               {{dolar.venta | number:2}}
             </span>
-            <span class="tab-item">
+            <span class="tab-item tab-item-active">
               <i class="icon" ng-class="{ 'ion-arrow-graph-down-right': (dolar.venta_dif < 0), 'ion-arrow-graph-up-right': (dolar.venta_dif > 0), 'ion-minus-round': (dolar.venta_dif == 0)}"></i>
               {{dolar.venta_dif | number:2}}
             </span>
@@ -48,21 +48,34 @@
 
         </div>
 
-      <ion-scroll style="height: {{windowHeight - 250}}px">
         <div class="card">
-          <div ng-repeat="dolar in dolares | filter:esOficial">
-            <button class="button button-block" ng-class="{ 'button-balanced': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
-              {{dolar.long_name}}
-            </button>
+          <div class="row">
+            <div class="col">
+              <button class="button button-block" ng-class="{ 'button-positive': ('blue' == dolar_activo), 'button-stable': ('blue' != dolar_activo)}" ng-click="cambiarDolar('blue')">
+                Blue
+              </button>
+            </div>
+            <div class="col">
+              <button class="button button-block" ng-class="{ 'button-balanced': ('oficial' == dolar_activo), 'button-stable': ('oficial' != dolar_activo)}" ng-click="cambiarDolar('oficial')">
+                Oficial
+              </button>
+            </div>
           </div>
 
-          <div ng-repeat="dolar in dolares | filter:esBlue">
-            <button class="button button-block" ng-class="{ 'button-positive': (dolar.name == dolar_activo), 'button-stable': (dolar.name != dolar_activo)}" ng-click="cambiarDolar(dolar.name)">
-              {{dolar.long_name}}
-            </button>
+          <div class="row">
+            <div class="col">
+              <button class="button button-block" ng-class="{ 'button-balanced': ('oficial_20' == dolar_activo), 'button-stable': ('oficial_20' != dolar_activo)}" ng-click="cambiarDolar('oficial_20')">
+                Ahorro
+              </button>
+            </div>
+
+            <div class="col">
+              <button class="button button-block" ng-class="{ 'button-balanced': ('oficial_35' == dolar_activo), 'button-stable': ('oficial_35' != dolar_activo)}" ng-click="cambiarDolar('oficial_35')">
+                Turista
+              </button>
+            </div>
           </div>
         </div>
-      </ion-scroll>
 
 
     </div>

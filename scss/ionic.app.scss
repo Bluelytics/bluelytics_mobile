@@ -21,6 +21,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "src/lib/ionic/scss/ionic";
 
+
 .precios > .item > .tab-item.valor {
   font-size:1.7em;
 }
@@ -62,4 +63,30 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 .big-loading{
   font-size:2.0em;
+}
+
+.table-header{
+  background-color:#efefef;
+}
+
+.table-header > .col {
+  font-size:1.0em;
+  font-weight:bold;
+  text-align:center;
+}
+
+.table-row > .col{
+  text-align:center;
+}
+
+.table-row{
+  margin-top:3px;
+}
+
+.color-oficial{
+  color:#048a00;
+}
+
+.color-blue{
+  color:#020091;
 }
